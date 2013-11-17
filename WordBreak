@@ -1,0 +1,30 @@
+public class Solution {
+
+    public boolean wordBreak(String s, Set<String> dict) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+     
+        boolean[][] inDict = new boolean[s.length()][s.length()];
+        for (boolean[] d : inDict) {
+            Arrays.fill(d, false);
+        }
+
+        for (int len = 1 ; len <= s.length(); len++) {
+            for (int i = 0; i + len <= s.length(); i++) {
+                if (dict.contains(s.substring(i, i + len))) {
+                    inDict[i][i + len - 1] = true;
+                }
+                else {
+                    for (int j = i + 1; j < i + len; j++) {
+                        if (inDict[i][j - 1] && inDict[j][i + len - 1]) {
+                            inDict[i][i + len - 1] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return inDict[0][s.length() - 1];
+    }
+}
