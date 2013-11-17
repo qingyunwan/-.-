@@ -1,0 +1,33 @@
+public class Solution {
+    public String multiply(String num1, String num2) {
+        // IMPORTANT: Please reset any member data you declared, as
+        // the same Solution instance will be reused for each test case.
+        String n1 = new StringBuilder(num1).reverse().toString();
+        String n2 = new StringBuilder(num2).reverse().toString();
+         if (n1.equals("0") || n2.equals("0")) {
+            return new String("0");
+        }
+        
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < n1.length() + n2.length() + 1; i++) {
+            ans.append('0');
+        }
+
+        for (int i = 0; i < n1.length(); i++) {
+            for (int j = 0; j < n2.length(); j++) {
+                int s = (n1.charAt(i) - '0') * (n2.charAt(j) - '0') + (ans.charAt(i + j) - '0');
+                int idx = i + j;
+                do {
+                    ans.setCharAt(idx++, (char)(s % 10 + '0'));
+                    s /= 10;
+                    s += ans.charAt(idx) - '0';
+                } while(s > 0);
+            }
+        }
+
+        ans.reverse();
+        int i = 0;
+        for (;(ans.charAt(i) == '0'); i++) ;
+        return ans.substring(i);
+    }
+}
